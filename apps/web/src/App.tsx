@@ -18,6 +18,7 @@ import {
   stashOnboardingEntryForProject,
   type OnboardingEntry,
 } from './onboarding/onboarding-entry';
+import { isExamMode } from './features/examMode';
 import {
   deriveConfigureGlobals,
   projectKindFromMetadataToTracking,
@@ -1934,6 +1935,8 @@ function AppInner() {
   // the modal-backdrop layer in index.css so opening Settings does not hide
   // it.
   const showPrivacyConsent =
+    // [FORK] exam mode: never surface the privacy banner.
+    !isExamMode() &&
     daemonConfigLoaded &&
     config.privacyDecisionAt == null &&
     config.onboardingCompleted === true;
@@ -5783,7 +5786,8 @@ function AppInner() {
           (`opend.home.*`), so the home view is where they belong: not over a
           project workbench, not over another entry tab, and — since account
           restoration can finish while login is still up — not over onboarding. */}
-      {route.kind === 'home' && route.view === 'home' && (
+      {/* [FORK] exam mode: no campaign modals */}
+      {!isExamMode() && route.kind === 'home' && route.view === 'home' && (
         <>
           <TestCampaignModal
             authenticated={isAmrSessionAuthenticated(amrLoginStatus)}
@@ -5800,12 +5804,15 @@ function AppInner() {
       {/* Mounted at shell level, outside the route views, so a survey armed by
           an export inside a project stays on screen when the user navigates
           back to home. */}
+      {/* [FORK] exam mode: no experience survey */}
+      {!isExamMode() && (
       <ExperienceSurvey
         metricsConsent={config.telemetry?.metrics === true}
         onExposure={() => trackExperienceSurveyShown(analytics.track)}
         onDismiss={() => trackExperienceSurveyDismissed(analytics.track)}
         onSubmit={(answers) => trackExperienceSurveySent(analytics.track, answers)}
       />
+      )}
       <AmrArtifactUpgradeGate
         cloudModelSelected={config.mode === 'daemon' && config.agentId === 'amr'}
         homeVisible={route.kind === 'home' && route.view === 'home'}

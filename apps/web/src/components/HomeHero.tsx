@@ -93,6 +93,7 @@ import { assetTitle } from './LibraryAssetMeta';
 import { libraryAssetRawUrl } from '../providers/registry';
 import type { LibraryAsset } from '@open-design/contracts';
 import { WorkingDirPicker } from './WorkingDirPicker';
+import { isExamMode } from '../features/examMode';
 import {
   ProjectReferenceModal,
   type ProjectReferenceSelection,
@@ -2473,6 +2474,8 @@ export const HomeHero = forwardRef<HomeHeroHandle, Props>(function HomeHero(
           — the upload entry moved up into the card's send cluster (per product)
           and the design system sits beside the type pill (per product:
           绿色 pill 后面跟设计系统 icon). */}
+      {/* [FORK] exam mode: hide the working-directory accessory row */}
+      {!isExamMode() && (
       <div className="home-hero__workdir-row">
         {onPickWorkingDir ? (
           <WorkingDirPicker
@@ -2576,6 +2579,7 @@ export const HomeHero = forwardRef<HomeHeroHandle, Props>(function HomeHero(
           </ContextChipHoverCard>
         ))}
       </div>
+      )}
       </div>
 
       {/* No second-level category row under a picked type (per product,
@@ -2586,7 +2590,8 @@ export const HomeHero = forwardRef<HomeHeroHandle, Props>(function HomeHero(
 
       {isDock ? null : recommendationSlot}
 
-      {isDock ? null : examplePluginPresets.length > 0 && activeChipId ? (
+      {/* [FORK] exam mode: hide the example template presets list */}
+      {isDock ? null : !isExamMode() && examplePluginPresets.length > 0 && activeChipId ? (
         <PluginPromptPresets
           chipId={activeChipId}
           plugins={examplePluginPresets}

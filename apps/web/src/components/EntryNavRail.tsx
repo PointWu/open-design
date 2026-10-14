@@ -43,6 +43,7 @@ import {
   type Ref,
 } from 'react';
 import { createPortal } from 'react-dom';
+import { isExamMode } from '../features/examMode';
 import { coalescedGet, evictCoalescedGet } from '../lib/coalesced-get';
 import {
   canReachWorkspaceBillingEntrance,
@@ -2545,7 +2546,7 @@ export function EntryNavRail({
         >
           <Icon name="home" size={16} />
         </NavButton>
-        <NavButton
+        {/* <NavButton
           active={view === 'community'}
           ariaLabel={communityLabel}
           label={communityLabel}
@@ -2553,7 +2554,7 @@ export function EntryNavRail({
           testId="entry-nav-community"
         >
           <Icon name="globe" size={16} />
-        </NavButton>
+        </NavButton> */}
 
         {context ? (
           <div className="entry-nav-rail__team-section">
@@ -2580,6 +2581,9 @@ export function EntryNavRail({
             >
               <Icon name="palette" size={16} />
             </NavButton>
+            {/* [FORK] exam mode: hide the plugins entry (it hosts the
+                plugin-marketplace surface) */}
+            {!isExamMode() && (
             <NavButton
               active={view === 'plugins'}
               ariaLabel={t('entry.navPlugins')}
@@ -2589,6 +2593,7 @@ export function EntryNavRail({
             >
               <Icon name="puzzle" size={16} />
             </NavButton>
+            )}
             {/* 设置 is a rail destination on BOTH branches (product: 设置的按钮
                 在插件下边). Signed-in used to keep it only in the account hover
                 menu — two interactions deep, and invisible until you found the
@@ -2596,6 +2601,8 @@ export function EntryNavRail({
                 the same way in either state, above 最近项目 (content, not a
                 place to go). `entry-settings-button` stays UNIQUE: this branch
                 and the signed-out one below are mutually exclusive. */}
+            {/* [FORK] exam mode: hide the settings rail destination */}
+            {!isExamMode() && (
             <NavButton
               ariaLabel={t('entry.accountSettings')}
               label={t('entry.accountSettings')}
@@ -2611,6 +2618,7 @@ export function EntryNavRail({
             >
               <Icon name="settings" size={16} />
             </NavButton>
+            )}
             {/* 最近项目 sits under 设置 (per product) — the last thing in the
                 destination list, because it is a list of CONTENT rather than a
                 place to go. */}
@@ -2662,6 +2670,8 @@ export function EntryNavRail({
             >
               <Icon name="palette" size={16} />
             </NavButton>
+            {/* [FORK] exam mode: hide the plugins entry (signed-out branch) */}
+            {!isExamMode() && (
             <NavButton
               active={view === 'plugins'}
               ariaLabel={t('entry.navPlugins')}
@@ -2671,6 +2681,7 @@ export function EntryNavRail({
             >
               <Icon name="puzzle" size={16} />
             </NavButton>
+            )}
             {/* recvq4hGF7BJkI removed this entry while the rail footer still
                 carried EntryShell's `entry-settings-chip` for the signed-out
                 case. #5517 then dropped that chip (the footer only hosts the
@@ -2679,6 +2690,9 @@ export function EntryNavRail({
                 signed-out half of the pair (testId `entry-settings-button` is
                 the e2e contract); the signed-in branch above renders the same
                 item in the same slot under 插件, and the two never coexist. */}
+            {/* [FORK] exam mode: hide the settings rail destination
+                (signed-out branch) */}
+            {!isExamMode() && (
             <NavButton
               ariaLabel={t('entry.accountSettings')}
               label={t('entry.accountSettings')}
@@ -2694,6 +2708,7 @@ export function EntryNavRail({
             >
               <Icon name="settings" size={16} />
             </NavButton>
+            )}
             {/* 最近项目 under 设置, exactly as on the signed-in branch
                 (OPEND-3140). Without a cloud identity the catalog EntryShell
                 hands over IS the local project list, so the local shell gets

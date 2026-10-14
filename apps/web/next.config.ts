@@ -246,9 +246,10 @@ const nextConfig: NextConfig = {
             { source: '/frames/:path*', destination: `${DAEMON_ORIGIN}/frames/:path*` },
           ];
         },
-        devIndicators: {
-          position: 'bottom-right',
-        },
+        // [FORK] exam mode: hide the Next.js devtools badge entirely — the
+        // floating "N" disc in the corner. Dev-only chrome; production
+        // builds never render it either way.
+        devIndicators: false,
       }
       : {}),
 };

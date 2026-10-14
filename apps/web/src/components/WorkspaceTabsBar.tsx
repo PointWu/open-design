@@ -79,6 +79,7 @@ import { entryViewToTracking } from '../analytics/workspace';
 import { homeHeroChipLabel } from './home-hero/chip-labels';
 import { isMacPlatform } from '../utils/platform';
 import { useGlideIndicator } from '../hooks/useGlideIndicator';
+import { isExamMode } from '../features/examMode';
 import { useLiquidGlass } from '../hooks/useLiquidGlass';
 import { WORKSPACE_CHROME_ACCOUNT_ACTIONS_ID } from './workspaceChromeActions';
 
@@ -2598,7 +2599,8 @@ export function WorkspaceTabsBar({
             targets live in EntryShell's tree, so the clicks travel as window
             events (see entryRailBridge). The classes are the rail's own, so
             the controls keep their look. */}
-        {!tabsDockEl && !settingsPageChrome ? (
+        {/* [FORK] exam mode: hide the rail-toggle + search chrome cluster */}
+        {!tabsDockEl && !settingsPageChrome && !isExamMode() ? (
           <div className="entry-nav-rail__search-row workspace-tabs-rail-actions">
             <button
               type="button"

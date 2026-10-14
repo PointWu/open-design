@@ -38,6 +38,7 @@ import {
   trackSettingsPrivacyClick,
   trackSettingsView,
 } from '../analytics/events';
+import { isSettingsSectionAllowed } from '../features/examMode';
 import { LOCALE_LABEL, LOCALES, useI18n } from '../i18n';
 import type { Locale } from '../i18n';
 import type { Dict } from '../i18n/types';
@@ -4381,6 +4382,8 @@ export function SettingsDialog({
                 <small>{t('settings.generalHint')}</small>
               </span>
             </button>
+            {/* [FORK] exam mode: hide the labs entry */}
+            {isSettingsSectionAllowed('labs') && (
             <button
               type="button"
               className={`settings-nav-item${activeSection === 'labs' ? ' active' : ''}`}
@@ -4392,6 +4395,9 @@ export function SettingsDialog({
                 <small>{t('labs.navHint')}</small>
               </span>
             </button>
+            )}
+            {/* [FORK] exam mode: hide the instructions entry */}
+            {isSettingsSectionAllowed('instructions') && (
             <button
               type="button"
               className={`settings-nav-item${activeSection === 'instructions' ? ' active' : ''}`}
@@ -4403,6 +4409,9 @@ export function SettingsDialog({
                 <small>{t('settings.instructionsNavSub')}</small>
               </span>
             </button>
+            )}
+            {/* [FORK] exam mode: hide the memory entry */}
+            {isSettingsSectionAllowed('memory') && (
             <button
               type="button"
               className={`settings-nav-item${activeSection === 'memory' ? ' active' : ''}`}
@@ -4414,6 +4423,9 @@ export function SettingsDialog({
                 <small>{t('settings.memoryHint')}</small>
               </span>
             </button>
+            )}
+            {/* [FORK] exam mode: hide the media entry */}
+            {isSettingsSectionAllowed('media') && (
             <button
               type="button"
               className={`settings-nav-item${activeSection === 'media' ? ' active' : ''}`}
@@ -4425,6 +4437,9 @@ export function SettingsDialog({
                 <small>Image / video / audio</small>
               </span>
             </button>
+            )}
+            {/* [FORK] exam mode: hide the integrations entry */}
+            {isSettingsSectionAllowed('integrations') && (
             <button
               type="button"
               className={`settings-nav-item${activeSection === 'integrations' ? ' active' : ''}`}
@@ -4436,6 +4451,9 @@ export function SettingsDialog({
                 <small>{t('settings.mcpServerHint')}</small>
               </span>
             </button>
+            )}
+            {/* [FORK] exam mode: hide the privacy entry */}
+            {isSettingsSectionAllowed('privacy') && (
             <button
               type="button"
               className={`settings-nav-item${activeSection === 'privacy' ? ' active' : ''}`}
@@ -4447,6 +4465,9 @@ export function SettingsDialog({
                 <small>{t('settings.privacyHint')}</small>
               </span>
             </button>
+            )}
+            {/* [FORK] exam mode: hide the about entry */}
+            {isSettingsSectionAllowed('about') && (
             <button
               type="button"
               className={`settings-nav-item${activeSection === 'about' ? ' active' : ''}`}
@@ -4458,6 +4479,7 @@ export function SettingsDialog({
                 <small>{t('settings.aboutHint')}</small>
               </span>
             </button>
+            )}
           </aside>
           <div className="settings-content" ref={settingsContentRef}>
           {activeSection === 'execution' ? (
