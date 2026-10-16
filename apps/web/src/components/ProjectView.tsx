@@ -297,6 +297,7 @@ import {
 import { historyWithApiAttachmentContext } from '../api-attachment-context';
 import { filterImplicitProducedFiles } from '../produced-files';
 import { AvatarMenu } from './AvatarMenu';
+import { isExamMode } from '../features/examMode';
 import { Icon } from './Icon';
 import { useWorkspaceTabsDockRef } from './workspaceTabsDock';
 import { localizePluginTitle } from './plugins-home/localization';
@@ -13553,6 +13554,8 @@ export function ProjectView({
   // not in the top-right header.
   const executionControls = (
     <>
+      {/* [FORK] exam mode: hide the agent/CLI selector trigger */}
+      {!isExamMode() && (
       <AvatarMenu
         config={config}
         agents={agents}
@@ -13610,6 +13613,7 @@ export function ProjectView({
         placement="up"
         projectWorkspaceScope={projectWorkspaceScopeState}
       />
+      )}
     </>
   );
 

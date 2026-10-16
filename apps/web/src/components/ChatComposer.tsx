@@ -66,6 +66,7 @@ import { buildVisualAnnotationAttachment, commentTargetDisplayName } from '../co
 import { Icon, type IconName } from "./Icon";
 import { ChatCloseIcon, ChatFileIcon, ChatSendArrowIcon } from "./chat/primitives/icons";
 import { ComposerPlusMenu, PLUS_SUBMENU_RESOURCE_KIND, type PlusMenuSubmenu } from './ComposerPlusMenu';
+import { isExamMode } from '../features/examMode';
 import { LibraryPicker } from './LibraryPicker';
 import { FigmaImportModal } from './FigmaImportModal';
 import { FigmaHelpModal } from './FigmaHelpModal';
@@ -3603,6 +3604,8 @@ export const ChatComposer = forwardRef<ChatComposerHandle, Props>(
                 e.target.value = '';
               }}
             />
+            {/* [FORK] exam mode: hide the composer "+" menu */}
+            {!isExamMode() && (
             <ComposerPlusMenu
               workspaceContext={workspaceContext}
               triggerTestId="chat-plus-trigger"
@@ -3737,9 +3740,11 @@ export const ChatComposer = forwardRef<ChatComposerHandle, Props>(
                 openDesignSystemPicker();
               } : undefined}
             />
+            )}
             {/* #5517: the design-system picker sits inline in the composer's
                 icon row (palette icon) instead of the staged-context bar. */}
-            {designSystemPicker}
+            {/* [FORK] exam mode: hide the inline design-system picker */}
+            {!isExamMode() && designSystemPicker}
             {leadingAccessory}
             <span className="composer-spacer" />
             {/* No mode picker in the composer (2026-08-19, product): the row

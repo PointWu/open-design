@@ -35,6 +35,7 @@ import {
   trackQuestionsFormClick,
   trackQuestionsFormSurfaceView,
 } from "../analytics/events";
+import { isExamMode } from "../features/examMode";
 import {
   feedbackAgentProviderIdToTracking,
   modelIdForTracking,
@@ -2200,7 +2201,8 @@ export function AssistantFooter({
           </span>
         </>
       ) : null}
-      {copyMarkdown || onFork || feedbackControls || onContinueRemaining ? (
+      {/* [FORK] exam mode: hide the per-message action row (feedback / copy / fork) */}
+      {!isExamMode() && (copyMarkdown || onFork || feedbackControls || onContinueRemaining) ? (
         <span className="assistant-footer-controls">
           {/*
             〔继续剩余任务〕排在最前面。

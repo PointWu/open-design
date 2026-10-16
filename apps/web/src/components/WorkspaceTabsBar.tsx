@@ -2417,7 +2417,8 @@ export function WorkspaceTabsBar({
           the workspace 设计文件 row. The strip's own pinned entry tab hides
           inside the dock (CSS) — this button is its chrome-row stand-in.
           In chat the logo means 回到首页. */}
-      {(tabsDockEl || settingsPageChrome) && state.tabs[0] ? (
+      {/* [FORK] exam mode: hide the chrome-row home shortcut */}
+      {(tabsDockEl || settingsPageChrome) && state.tabs[0] && !isExamMode() ? (
         <button
           type="button"
           className="workspace-tabs-home-chrome od-tooltip"

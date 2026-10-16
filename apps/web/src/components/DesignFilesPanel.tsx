@@ -4,6 +4,7 @@ import { useAnalytics } from '../analytics/provider';
 import { trackFileManagerClick } from '../analytics/events';
 import { useT } from '../i18n';
 import { LIBRARY_UI_VISIBLE } from '../features/libraryUi';
+import { isExamMode } from '../features/examMode';
 import type { Dict } from '../i18n/types';
 import { copyToClipboard } from '../lib/copy-to-clipboard';
 import { projectFileUrl, projectRawUrl } from '../providers/registry';
@@ -1364,7 +1365,9 @@ export function DesignFilesPanel({
     }
   }
 
-  const fileActions = viewerOnly ? null : (
+  // [FORK] exam mode: hide the topbar file-action cluster (project ⋯ menu,
+  // library trigger) — the empty-state starter row is hidden the same way.
+  const fileActions = viewerOnly || isExamMode() ? null : (
     <div className="df-actions">
       {LIBRARY_UI_VISIBLE && onSelectFromLibrary ? (
         <button
@@ -1640,6 +1643,8 @@ export function DesignFilesPanel({
                   </span>
                   {/* Keep starter actions discoverable in shared read-only
                       projects, but disable every project mutation in place. */}
+                  {/* [FORK] exam mode: hide the empty-state starter action row */}
+                  {!isExamMode() && (
                   <div className="df-empty-actions">
                     <button
                       type="button"
@@ -1711,6 +1716,7 @@ export function DesignFilesPanel({
                       </button>
                     ) : null}
                   </div>
+                  )}
                 </div>
               </div>
             )
